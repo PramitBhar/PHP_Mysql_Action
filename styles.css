@@ -1,0 +1,26 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
+.card {
+  align-items: center;
+  vertical-align: middle;
+  margin-top: 100px;
+  margin-left: 150px;
+ line-height:30px;
+ width: 800px;
+}
+.warning_message {
+  color: red;
+}
+.btn-success {
+  padding: 10px 200px ;
+}
+.card-link {
+  color: red;
+}
