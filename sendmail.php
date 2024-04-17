@@ -26,6 +26,7 @@ try {
   $mail->AltBody = 'Body in plain text for non-HTML mail clients';
   $mail->send();
   echo "Mail has been sent successfully!";
-} catch (Exception $e) {
+}
+catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }

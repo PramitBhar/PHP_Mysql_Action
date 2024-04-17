@@ -1,28 +1,36 @@
 <?php
+
 //Inclde database using this file.
 include 'DatabaseConnection.php';
 // Create new object.
 $connectDB = new DatabaseConnection();
 // Connect Database.
 $connectDB->connection();
-
-if ($_SERVER["REQUEST_METHOD"]=="POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  //This variable take the unique token which is used to verify email.
   $token = $_POST["token"];
+  //This variable takes the input of the new password
   $newPassword = $_POST["password"];
+  //This variable take the input of new password as a repeated password
   $passwordConfirmation = $_POST["passwordConfirmation"];
-
+  //Here checked newpassword and repeated password are matched or not.
   if ($newPassword !== $passwordConfirmation) {
     $isValid = TRUE;
     $message = "Passwords not matched.";
   }
   else if (!$isValid) {
+    //This variable take the user details depends on the token is valid or not.
     $user = $connectDB->validTokenOrNot($token);
+    //Hash the password.
     $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+    //This variable takes the input of userId.
     $userId = $user[0]["id"];
     $upadtdingPassword = $connectDB->updatePassword($passwordHash, $userId);
+    //If password variable is successful then chaged the header to login page.
     if ($upadtdingPassword) {
       header("Location:login.php");
     }
+    //Otherwise password reset unsuccessful.
     else {
       $isValid = TRUE;
       $message = "Password reset is unsuccessful.";
@@ -60,6 +68,7 @@ else {
           <span class="input-group-text">New Password</span>
           <input type="password" name="password" placeholder="enter your new password" class="form-control">
         </div>
+
         <div class="input-group mb-3">
           <span class="input-group-text">Confirm Password</span>
           <input type="password" name="passwordConfirmation" placeholder="confirm your password" class="form-control">

@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 $valid = FALSE;
 if ($_SESSION['id']) {
@@ -19,7 +20,6 @@ if ($_SESSION['id']) {
 <body>
 <?php if ($valid) :?>
   <?php include('./assignment6/html/index.php')?>
-<!-- <h1>Hello,pramit</h1> -->
 <form method="post" action="logout.php">
   <input type="submit" value="Logout">
 </form>
@@ -30,7 +30,6 @@ if ($_SESSION['id']) {
 <p><a href='login.php'>Login</a> Or <a href='register.php'> Sign up</p>
 </div>
 <?php endif; ?>
-
 </div>
 </body>
 </html>

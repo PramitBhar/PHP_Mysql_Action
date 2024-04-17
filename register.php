@@ -1,14 +1,19 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
 session_start();
 include 'DatabaseConnection.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  //This variable store the input first name of the user
   $first_name = $_POST['fname'];
+  //This variable store the input last name of the user
   $last_name = $_POST['lname'];
+  //This variable store the input of the user given username
   $username = $_POST['username'];
+  //This variable store the input of the user given email.
   $email = $_POST['email'];
+  //This variable store the input of the user given password.
   $password = $_POST['password'];
+  //This variable store the unique id of the each variable.
   $id = uniqid();
   try {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -52,6 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <span class="input-group-text">Last name</span>
           <input type="text" name="lname" class="form-control" maxlength="25" pattern="^[A-Za-z]+$" required>
         </div>
+
         <div class="input-group mb-3">
           <span class="input-group-text">Email</span>
           <input type="email" name="email" class="form-control" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" required>

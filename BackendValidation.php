@@ -1,7 +1,7 @@
 <?php
+
 /**
  * This class is used for Validate user given email username and password.
- *
  */
 Class BackendValidation {
   /**
@@ -20,26 +20,28 @@ Class BackendValidation {
     }
     return FALSE;
   }
+
   /**
    * This function is used to check user given password pattern is valid or not.
    *
    * @param string $password
-   *This variable contain user given password.
+   *  This variable contain user given password.
    *
    * @return bool
    */
   public function isPasswordValid(string $password) :bool {
     $pattern = "/^[A-Za-z0-9-\#\$\.\%\&\*\@]+$/";
-    if ($password!='' && preg_match($pattern, $password) && strlen($password)<=10) {
+    if ($password != '' && preg_match($pattern, $password) && strlen($password) <= 10) {
       return TRUE;
     }
     return FALSE;
   }
+
   /**
    * This function is used to validate user name.
    *
    * @param string $username
-   * This variable contain user given username.
+   *  This variable contain user given username.
    *
    * @return bool
    */

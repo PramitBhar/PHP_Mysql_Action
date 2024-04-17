@@ -1,9 +1,5 @@
 <?php
 
-// namespace MyDatabase;
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 include 'loadenv.php';
 /**
  * Class databaseConnection is used for connect database.
@@ -11,27 +7,27 @@ include 'loadenv.php';
 class DatabaseConnection {
   /**
    * @var string $serverName
-   * servername store the database host name.
+   *  Servername store the database host name.
    */
   private $serverName;
   /**
    * @var string $dbName
-   * database name is stored inside dbName.
+   *  Database name is stored inside dbName.
    */
   private $dbName;
   /**
    * @var string $userName
-   * It is used to store username.
+   *  It is used to store username.
    */
   private $userName;
   /**
    * @var string $password
-   * It is used to store password.
+   *  It is used to store password.
    */
   private $password;
   /**
    * @var string $conn.
-   * It stores connection.
+   *  It stores connection.
    */
   public $conn;
 
@@ -44,6 +40,7 @@ class DatabaseConnection {
     $this->password = $_ENV['password'];
     $this->dbName = $_ENV['My_dbName'];
   }
+
   /**
    * This is function is used for connecting database.
    * @return string
@@ -60,6 +57,12 @@ class DatabaseConnection {
     }
   }
 
+  /**
+   * This function is used to insert the user data into the database
+   *
+   * @param string $sql
+   *  This variable contains the query.
+   */
   public function insertData(string $sql) {
     try {
       $statement = $this->conn->prepare($sql);
@@ -69,6 +72,7 @@ class DatabaseConnection {
       echo "Data insertion failed " . $e->getMessage();
     }
   }
+
   /**
    * This function is used to fetch all data of a table.
    *
@@ -78,14 +82,15 @@ class DatabaseConnection {
    * @return string $results
    * Contain all the rows and column of a table.
    */
-  public function fetchingData(string $user) {
+  public function fetchingData(string $user): string {
     $query1 = "SELECT * FROM user_details where username='$user'";
-    // $query1 = "$query" . "$tableName";
+    // Preparing and executing the sql query.
     $stmt = $this->conn->prepare($query1);
     $stmt->execute();
     $results = $stmt->fetchAll();
     return $results;
   }
+
   /**
    * Gerates Token to verify e-mail.
    *
@@ -95,7 +100,7 @@ class DatabaseConnection {
    * expirey time in the user database.Basically this function verify user e-mail
    * is present in the database and send e-mail to the verified user.
    */
-  public function generateToken($email) {
+  public function generateToken(string $email) {
     //this variable contain unique id using php in-built function.
     $token = bin2hex(uniqid());
     //this variable contains the hash value of the unique token.
@@ -105,8 +110,11 @@ class DatabaseConnection {
     //this variable contains sql query which help us to update user_details info.
     $query = "UPDATE user_details SET reset_token= ?, reset_token_expires= ? where email= ?";
     $stmt = $this->conn->prepare($query);
+    //take hash_token as the first input of the query
     $stmt->bindValue(1, $hash_token);
+    //take token_expire_at as the first input of the query
     $stmt->bindValue(2, $token_expire_at);
+    //take email as the first input of the query
     $stmt->bindValue(3, $email);
     $stmt->execute();
     // this if case checked sql query value affected any row,column or not.
@@ -119,28 +127,32 @@ class DatabaseConnection {
       echo "Entered mail is not registered";
     }
   }
+
   /**
    * This function is used to token is validate or not
    *
    * @param string $token
+   *  This variable contains the token which is used to check email is valid or not.
+   * @return object $user
    */
-  public function validTokenOrNot(string $token) {
+  public function validTokenOrNot(string $token): object {
     $sqlQuery = "SELECT * from user_details where reset_token='$token'";
     $stmt = $this->conn->prepare($sqlQuery);
     // $stmt->bindValue(1, $token);
     $stmt->execute();
     // $result = $stmt->bind_result();
     $user = $stmt->fetchAll();
-    print_r($user);
     if ($user === NULL) {
       die("Token not found");
     }
-    print_r($user[0]['reset_token_expires']);
+    //If stored token expires time is less than current time then token will be expired.
     if (strtotime($user[0]['reset_token_expires']) <= time()) {
       die("Token has been expired");
     }
+    //Otherwise return the user object
     return $user;
   }
+
   /**
    * This function is used to update password of a user.
    *

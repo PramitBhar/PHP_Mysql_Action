@@ -8,12 +8,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   try {
     //Created new object.
     $connectDb = new DatabaseConnection();
-    // $sql = "SELECT * FROM user_details WHERE username = '$_POST['username']';";
+    //This variable store the user given username.
     $username = $_POST['username'];
-    // $createQuery = $connectDb->insertData($sql);
     $connectDb->connection();
     $userDetails = $connectDb->fetchingData($username);
-    // print_r($userDetails);
     if ($userDetails) {
       if (password_verify($_POST['password'], $userDetails[0]['hash_password'])) {
         session_start();
@@ -63,12 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="input-group mb-3">
         <span class="input-group-text">Username</span>
         <input type="text" name="username" class="form-control" maxlength="25" pattern="^[A-Za-z0-9]+$" required>
-    </div>
-    <div class="input-group mb-3">
-      <span class="input-group-text">Password</span>
-       <input type="password" name="password" class="form-control"
-       maxlength="10" pattern="^[A-Za-z0-9-\#\$\.\%\&\*\@]+$" required>
-    </div>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text">Password</span>
+        <input type="password" name="password" class="form-control"
+         maxlength="10" pattern="^[A-Za-z0-9-\#\$\.\%\&\*\@]+$" required>
+      </div>
       <input type="submit" value="Login" class="btn btn-success">
     </form>
     <!-- Forgot password link. -->
