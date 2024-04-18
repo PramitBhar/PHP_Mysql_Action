@@ -3,7 +3,9 @@
 include 'DatabaseConnection.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $connectDb = new DatabaseConnection();
+  // Connect with database.
   $connectDb->connection();
+  // Generate token based on the user given email.
   $connectDb->generateToken($_POST['email']);
 }
 ?>

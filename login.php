@@ -1,22 +1,26 @@
 <?php
 session_start();
-//Include database using this file.
+// Include database using this file.
 include 'DatabaseConnection.php';
-//This variable is used to check user given username and password is correct or not.
+// This variable is used to check user given username and password is correct or not.
 $isUserValid = TRUE;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   try {
-    //Created new object.
+    // Created new object.
     $connectDb = new DatabaseConnection();
-    //This variable store the user given username.
+    // This variable store the user given username.
     $username = $_POST['username'];
     $connectDb->connection();
+    // This variable store the fetched user details form the database.
     $userDetails = $connectDb->fetchingData($username);
+    // Verufying the password and start the sesssion.
     if ($userDetails) {
       if (password_verify($_POST['password'], $userDetails[0]['hash_password'])) {
         session_start();
         session_regenerate_id();
+        // Store the session id as user id.
         $_SESSION['id'] = $userDetails[0]['id'];
+        // Redirect to the main index page.
         header('Location:index.php');
         exit;
       }

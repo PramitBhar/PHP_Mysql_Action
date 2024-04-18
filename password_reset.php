@@ -1,36 +1,36 @@
 <?php
 
-//Inclde database using this file.
+// Inclde database using this file.
 include 'DatabaseConnection.php';
 // Create new object.
 $connectDB = new DatabaseConnection();
 // Connect Database.
 $connectDB->connection();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  //This variable take the unique token which is used to verify email.
+  // This variable take the unique token which is used to verify email.
   $token = $_POST["token"];
-  //This variable takes the input of the new password
+  // This variable takes the input of the new password
   $newPassword = $_POST["password"];
-  //This variable take the input of new password as a repeated password
+  // This variable take the input of new password as a repeated password
   $passwordConfirmation = $_POST["passwordConfirmation"];
-  //Here checked newpassword and repeated password are matched or not.
+  // Here checked newpassword and repeated password are matched or not.
   if ($newPassword !== $passwordConfirmation) {
     $isValid = TRUE;
     $message = "Passwords not matched.";
   }
   else if (!$isValid) {
-    //This variable take the user details depends on the token is valid or not.
+    // This variable take the user details depends on the token is valid or not.
     $user = $connectDB->validTokenOrNot($token);
-    //Hash the password.
+    // Hash the password.
     $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
-    //This variable takes the input of userId.
+    // This variable takes the input of userId.
     $userId = $user[0]["id"];
     $upadtdingPassword = $connectDB->updatePassword($passwordHash, $userId);
-    //If password variable is successful then chaged the header to login page.
+    // If password variable is successful then chaged the header to login page.
     if ($upadtdingPassword) {
       header("Location:login.php");
     }
-    //Otherwise password reset unsuccessful.
+    // Otherwise password reset unsuccessful.
     else {
       $isValid = TRUE;
       $message = "Password reset is unsuccessful.";
@@ -38,7 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 }
 else {
+  // Store the query token.
   $queryToken = $_GET["token"];
+  // Convert the query token to it's hash value to enhance the security.
   $hashQueryToken = hash("sha256", $queryToken);
   $user = $connectDB->validTokenOrNot($hashQueryToken);
   $isValid = FALSE;

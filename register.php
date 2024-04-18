@@ -3,17 +3,17 @@
 session_start();
 include 'DatabaseConnection.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  //This variable store the input first name of the user
+  // This variable store the input first name of the user.
   $first_name = $_POST['fname'];
-  //This variable store the input last name of the user
+  // This variable store the input last name of the user.
   $last_name = $_POST['lname'];
-  //This variable store the input of the user given username
+  // This variable store the input of the user given username
   $username = $_POST['username'];
-  //This variable store the input of the user given email.
+  // This variable store the input of the user given email.
   $email = $_POST['email'];
-  //This variable store the input of the user given password.
+  // This variable store the input of the user given password.
   $password = $_POST['password'];
-  //This variable store the unique id of the each variable.
+  // This variable store the unique id of the each variable.
   $id = uniqid();
   try {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);

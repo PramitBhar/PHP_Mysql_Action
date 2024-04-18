@@ -1,7 +1,9 @@
 <?php
 
+// Start the session.
 session_start();
 $valid = FALSE;
+// Check session id is valid or not.
 if ($_SESSION['id']) {
   $valid = TRUE;
 }
