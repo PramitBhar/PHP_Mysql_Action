@@ -99,6 +99,9 @@ class DatabaseConnection {
    * be valid only for 5 minutes after generating.Store this genrated tokens and
    * expirey time in the user database.Basically this function verify user e-mail
    * is present in the database and send e-mail to the verified user.
+   *
+   * @param string $email
+   *  This variable carry the email address of the user.
    */
   public function generateToken(string $email) {
     //this variable contain unique id using php in-built function.
